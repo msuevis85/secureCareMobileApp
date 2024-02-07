@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <application
+        android:name=".SecureCareMobileApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,10 +15,29 @@
         android:theme="@style/Theme.SecureCareMobileApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.SecureCareMobileApp">
+            android:name=".view.Patient.PatientTestList"
+            android:exported="false" />
+        <activity
+            android:name=".view.Test.TestAdd"
+            android:exported="false" />
+        <activity
+            android:name=".view.Patient.PatientAdd"
+            android:exported="false" />
+        <activity
+            android:name=".view.Patient.PatientUpdate"
+            android:exported="false" />
+        <activity
+            android:name=".view.Patient.PatientList"
+            android:exported="false" />
+        <activity
+            android:name=".view.Patient.PatientAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,5 +45,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

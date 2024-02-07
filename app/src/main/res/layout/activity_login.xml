@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.LoginActivity">
+    <LinearLayout
+        android:layout_width="@dimen/login_width"
+        android:layout_height="@dimen/login_height"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/loginImageButton"
+            android:layout_width="@dimen/login_img_button_width"
+            android:layout_height="@dimen/login_img_button_height"
+            android:layout_centerHorizontal="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_login_button"
+            android:tooltipText="Login" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="@dimen/login_txt_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="@dimen/login_txt_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true"
+            />
+
+        <LinearLayout
+            android:layout_width="@dimen/login_button_container_width"
+            android:layout_height="@dimen/login_button_container_height"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="@dimen/login_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="true"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/InitSessionButton"
+                android:layout_margin="@dimen/small_margin"
+                android:layout_width="@dimen/login_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="true"
+                android:text="@string/login" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

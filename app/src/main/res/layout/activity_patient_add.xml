@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Patient.PatientAdd"
+    android:orientation="vertical"
+    android:background="@color/design_default_color_secondary_variant">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_patient"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/heading_text"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
+                android:textColor="@color/material_dynamic_primary20"
+                android:textSize="@dimen/other_txt_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/patientFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter First Name"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/other_txt_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"
+                android:textColor="@color/material_dynamic_primary20"
+                android:textSize="@dimen/other_txt_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/patientLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter Last Name"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/other_txt_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/department"
+                android:textColor="@color/material_dynamic_primary20"
+                android:textSize="@dimen/other_txt_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/patientDepartment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Enter Department"
+                android:inputType="text"
+                android:textSize="@dimen/other_txt_size" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nurse_id"
+                android:textColor="@color/material_dynamic_primary20"
+                android:textSize="@dimen/other_txt_size"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"/>
+
+            <Spinner
+                android:id="@+id/nurseIdSpinner"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="@dimen/spinner_height"
+                android:layout_margin="@dimen/spinner_margin"
+                android:dropDownWidth="@dimen/spinner_drop_down"
+                android:focusable="false"
+                android:layout_gravity="center_vertical" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/room"
+                android:textColor="@color/material_dynamic_primary20"
+                android:textSize="@dimen/other_txt_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter Room Number"
+                android:inputType="number"
+                android:textSize="@dimen/other_txt_size" />
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin"
+            android:layout_weight="1"
+            android:text="Create"
+            android:textSize="@dimen/other_txt_size" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textSize="@dimen/other_txt_size" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

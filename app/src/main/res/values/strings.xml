@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">secureCareMobileApp</string>
+    <string name="app_name">Vinh_Nguyen_COMP304_Lab4</string>
+    <string name="login">Login</string>
+    <string name="user_name">username</string>
+    <string name="password">password</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_new_patient">Add New Patient</string>
+    <string name="add_new_test">Add New Test</string>
+    <string name="first_name">First Name: </string>
+    <string name="last_name">Last Name: </string>
+    <string name="department">Department: </string>
+    <string name="nurse_id">Nurse ID: </string>
+    <string name="room">Room: </string>
+    <string name="test_list">Test List</string>
+
+
 </resources>

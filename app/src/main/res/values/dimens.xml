@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="login_height">450dp</dimen>
+    <dimen name="login_width">695dp</dimen>
+    <dimen name="login_img_button_width">200dp</dimen>
+    <dimen name="login_img_button_height">181dp</dimen>
+    <dimen name="login_txt_width">250dp</dimen>
+    <dimen name="login_button_container_width">274dp</dimen>
+    <dimen name="login_button_container_height">74dp</dimen>
+    <dimen name="login_button_width">120dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="medium_margin">5dp</dimen>
+    <dimen name="main_width">386dp</dimen>
+    <dimen name="main_height">695dp</dimen>
+    <dimen name="main_txt_size">24sp</dimen>
+    <dimen name="other_txt_size">20sp</dimen>
+    <dimen name="text_size_big">20sp</dimen>
+    <dimen name="test_button_lo_width">174dp</dimen>
+    <dimen name="test_img_button_lo_width">112dp</dimen>
+    <dimen name="test_img_button_lo_height">99dp</dimen>
+    <dimen name="divider_height">50dp</dimen>
+    <dimen name="patient_button_width">174dp</dimen>
+    <dimen name="login_button_width_main">188dp</dimen>
+    <dimen name="login_img_button_width_main">112dp</dimen>
+    <dimen name="login_img_button_height_main">99dp</dimen>
+    <dimen name="spinner_width">60dp</dimen>
+    <dimen name="spinner_height">60dp</dimen>
+    <dimen name="spinner_margin">10dp</dimen>
+    <dimen name="spinner_drop_down">40dp</dimen>
+    <dimen name="add_new_button_width">80dp</dimen>
+    <dimen name="add_new_button_height">40dp</dimen>
+    <dimen name="heading_text_size">40dp</dimen>
+</resources>
