@@ -15,7 +15,7 @@ import com.project.centennial.securecaremobileapp.database.secureCareMobile.Test
  * Defines a database and specifies data tables that will be used.
  * Version is incremented as new tables/columns are added/removed/changed.
  * You can optionally use this class for one-time setup, such as pre-populating a database.
- *
+ * *
  */
 
 @Database(entities = [Patient::class, Nurse::class, Test::class], version=1)
