@@ -1,5 +1,1 @@
 # secureCareMobileApp
-
-# Hello
-
-# Hello
