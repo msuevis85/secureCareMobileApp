@@ -18,7 +18,7 @@ import com.project.centennial.securecaremobileapp.database.secureCareMobile.Test
  * *
  */
 
-@Database(entities = [Patient::class, Nurse::class, Test::class], version=1)
+@Database(entities = [Patient::class, Nurse::class, Test::class], version=1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun patientDao(): PatientDao
     abstract fun nurseDao(): NurseDao
