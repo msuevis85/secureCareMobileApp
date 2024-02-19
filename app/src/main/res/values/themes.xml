@@ -21,7 +21,16 @@
     <item name="windowNoTitle">true</item>
 </style>
 
-<style name="AppTheme.SecureCareMobileApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.SecureCareMobileApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
+    </style>
 
-<style name="AppTheme.SecureCareMobileApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.SecureCareMobileApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:actionButtonStyle">@style/ActionButton</item>
+    </style>
+
+    <style name="ActionButton" parent="@android:style/Widget.ActionButton">
+        <item name="android:drawablePadding">32dp</item>
+    </style>
+
 </resources>

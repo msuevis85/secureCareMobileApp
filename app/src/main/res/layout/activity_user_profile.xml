@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.patient.PatientAdd"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:id="@+id/insert_patient_container"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_big"
+            android:textColor="@color/heading_text"
+            android:layout_gravity="center_horizontal"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/group_insert_titles_container"
+                android:layout_width="130dp"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="First Name:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Last Name:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Day of Birth:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Email:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Password:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Phone:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Address:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:text="Gender:"
+                    android:textSize="16dp"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/insert_group_values_container"
+                app:layout_constraintStart_toEndOf="@id/group_insert_titles_container"
+                app:layout_constraintBottom_toBottomOf="@id/group_insert_titles_container"
+                app:layout_constraintTop_toTopOf="@id/group_insert_titles_container"
+                android:layout_width="220dp"
+                android:orientation="vertical"
+                android:layout_marginTop="0dp"
+                android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/firstname"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/lastname"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="16dp">
+
+                    <TextView
+                        android:id="@+id/dayofbirth_textview"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="16dp" />
+
+                    <Button
+                        android:id="@+id/dayofbirth_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/calendar_icon"
+                        android:text="Date Picker" />
+
+
+                </LinearLayout>
+
+
+
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:inputType="textPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/gender"
+                    android:layout_marginStart="16dp"
+                    android:maxLines="1"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="#E91E63"
+            android:id="@+id/error_text_view"
+            android:text=""
+            android:textSize="12dp"
+            android:paddingRight="24dp"
+            android:textAlignment="textEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            app:layout_constraintStart_toEndOf="@id/insert_group_values_container"
+            app:layout_constraintBottom_toBottomOf="@id/insert_group_values_container"
+            app:layout_constraintTop_toTopOf="@id/insert_group_values_container"
+            android:layout_marginTop="16dp"
+            android:paddingRight="24dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/insert_cancel_button"
+                android:text="Cancel"
+                android:layout_width="100dp"
+                android:layout_height="40dp"/>
+
+            <Button
+                android:id="@+id/insert_add_button"
+                android:layout_marginStart="16dp"
+                android:text="Save"
+                android:layout_width="100dp"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>
