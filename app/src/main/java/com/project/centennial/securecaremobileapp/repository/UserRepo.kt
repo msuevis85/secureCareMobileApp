@@ -77,4 +77,20 @@ class UserRepo {
             }
         }
     }
+
+    suspend fun updateProfile(token: String, body: Map<String, Any>) : UserResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val service = SecureHealthService.userService
+                val data = service.updateProfile(token,body)
+                data
+            } catch (ex: UnknownHostException) {
+                return@withContext null
+            } catch (ex: Exception) {
+                Log.e("Repo", ex.message.toString())
+                return@withContext null
+            }
+        }
+    }
 }

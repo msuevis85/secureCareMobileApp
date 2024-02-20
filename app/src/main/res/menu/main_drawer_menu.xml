@@ -47,13 +47,13 @@
         android:id="@+id/group_nav_patient_features">
         <menu>
             <item
-                android:id= "@+id/nav_video_consultation"
+                android:id= "@+id/nav_meet_specialist"
                 android:icon= "@drawable/menu_video_icon"
-                android:title= "Book Specialist" />
+                android:title= "Meet Specialist" />
             <item
-                android:id= "@+id/nav_text_consultation"
+                android:id= "@+id/nav_request_appointment"
                 android:icon= "@drawable/menu_message_icon"
-                android:title= "Enroll Appointment" />
+                android:title= "Request Appointment" />
         </menu>
     </item>
 

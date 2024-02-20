@@ -19,6 +19,13 @@ interface UserApi {
     @JvmSuppressWildcards
     suspend fun register(@Body body: Map<String, Any>) : UserResponse
 
+    @POST("/api/user/updateprofile")
+    @JvmSuppressWildcards
+    suspend fun updateProfile(
+        @Header("x-auth-token") token: String,
+        @Body body: Map<String, Any>
+    ) : UserResponse
+
 
     @GET("/api/user/profile/{userid}/{usertypeid}")
     @JvmSuppressWildcards

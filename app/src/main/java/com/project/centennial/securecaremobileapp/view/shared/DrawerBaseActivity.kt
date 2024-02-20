@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -30,6 +31,7 @@ import com.project.centennial.securecaremobileapp.view.MainActivity
 import com.project.centennial.securecaremobileapp.view.patient.BookSpecialistAppointmentActivity
 import com.project.centennial.securecaremobileapp.view.patient.PatientRegisterActivity
 import com.project.centennial.securecaremobileapp.view.specialist.SpecialistRegisterActivity
+import com.project.centennial.securecaremobileapp.view.user.UserProfileActivity
 
 
 open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -101,6 +103,11 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
         usernameHeaderText = includeLayout.findViewById<TextView>(R.id.header_username)
         var registerText = includeLayout.findViewById<TextView>(R.id.header_register_textview)
         var loginText = includeLayout.findViewById<TextView>(R.id.header_login_textview)
+        var logo_img = includeLayout.findViewById<ImageView>(R.id.header_logo)
+
+        logo_img.setOnClickListener{
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
         // find drawer header
         val headerView = navMenu.getHeaderView(0)
@@ -181,7 +188,12 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
                 startActivity(Intent(this, MainActivity::class.java))
             }
 
-            R.id.nav_video_consultation -> {
+            R.id.nav_profile -> {
+                startActivity(Intent(this, UserProfileActivity::class.java))
+
+            }
+
+            R.id.nav_meet_specialist -> {
                 startActivity(Intent(this, BookSpecialistAppointmentActivity::class.java))
             }
         }

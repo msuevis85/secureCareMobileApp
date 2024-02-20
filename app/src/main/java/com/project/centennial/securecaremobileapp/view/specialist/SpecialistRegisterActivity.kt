@@ -36,6 +36,7 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
         binding.dayofbirthButton.setOnClickListener{clickDobButton()}
         binding.insertAddButton.setOnClickListener{onSave()}
 
+        setGenderSpinner()
         listenerHandler()
     }
 

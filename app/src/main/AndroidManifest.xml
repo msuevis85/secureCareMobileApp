@@ -20,6 +20,9 @@
         <activity
             android:name=".view.user.LoginActivity"
             android:exported="false" />
+        <activity
+            android:name=".view.user.UserProfileActivity"
+            android:exported="false" />
 
         <activity
             android:name=".view.patient.PatientRegisterActivity"
@@ -31,6 +34,8 @@
         <activity
             android:name=".view.patient.BookSpecialistAppointmentActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".view.MainActivity"
             android:exported="true">
