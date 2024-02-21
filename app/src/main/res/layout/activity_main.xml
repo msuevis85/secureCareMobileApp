@@ -1,106 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  
 
     <LinearLayout
-        android:layout_width="@dimen/main_width"
-        android:layout_height="@dimen/main_height"
+
+        android:id="@+id/linear_layout"
         android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome : "
-            android:textFontWeight="12"
-            android:visibility="invisible"
-            android:textSize="@dimen/main_txt_size" />
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:background="?android:attr/listDivider"
-            android:visibility="invisible" />
-
-
-
-        <ImageButton
-            android:id="@+id/loginImageButton"
-            android:layout_width="@dimen/login_img_button_width_main"
-            android:layout_height="@dimen/login_img_button_height_main"
-            android:layout_centerHorizontal="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            android:src="@drawable/login"
-            android:tooltipText="Login"
-            />
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <EditText
+            android:paddingLeft="10dp"
+            android:id="@+id/search_term"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@id/search_button"
+            android:background="@drawable/rounded_corner"
+            android:hint="Search specialists" />
 
         <Button
-            android:id="@+id/loginButton"
-            android:layout_width="@dimen/login_button_width_main"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/search_button"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="Login" />
-
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:visibility="invisible"
-            android:background="?android:attr/listDivider" />
-
-        <ImageButton
-            android:id="@+id/pasientImageButton"
-            android:layout_width="112dp"
-            android:layout_height="99dp"
-            android:layout_centerHorizontal="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            android:src="@drawable/patient"
-            android:tooltipText="Loggin"
-            android:enabled="false"
-            />
-
-        <Button
-            android:id="@+id/patientButton"
-            android:layout_width="@dimen/patient_button_width"
-            android:layout_height="wrap_content"
-            android:text="Patients"
-            android:enabled="false"/>
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:visibility="invisible"
-            android:background="?android:attr/listDivider"
-            />
-
-        <ImageButton
-            android:id="@+id/testImageButton"
-            android:layout_width="@dimen/test_img_button_lo_width"
-            android:layout_height="@dimen/test_img_button_lo_height"
-            android:layout_centerHorizontal="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            android:src="@drawable/blood_test"
-            android:tooltipText="Login"
-            android:enabled="false"/>
-
-        <Button
-            android:id="@+id/testButton"
-            android:layout_width="@dimen/test_button_lo_width"
-            android:layout_height="wrap_content"
-            android:text="Create Test"
-            android:enabled="false"/>
-
-
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/search_icon" />
     </LinearLayout>
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

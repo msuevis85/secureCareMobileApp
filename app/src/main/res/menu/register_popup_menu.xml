@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_popup_patient"
+        android:title="Patient" />
+
+    <item
+        android:id="@+id/nav_popup_specialist"
+        android:title="Specialist" />
+
+</menu>

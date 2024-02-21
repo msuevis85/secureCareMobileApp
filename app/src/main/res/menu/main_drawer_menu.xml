@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+    <group android:checkableBehavior= "single"
+        android:id="@+id/group_nav_authorization">
+        <item
+            android:id= "@+id/nav_login"
+            android:icon= "@drawable/menu_login_icon"
+            android:title= "Login" />
+        <item
+            android:id= "@+id/nav_register"
+            android:title= "Register" >
+            <menu>
+                <item
+                    android:id= "@+id/nav_register_patient"
+                    android:icon= "@drawable/menu_register_patient_icon"
+                    android:title= "Patient" />
+                <item
+                    android:id= "@+id/nav_register_specialist"
+                    android:icon= "@drawable/menu_register_specialist_icon"
+                    android:title= "Specialist" />
+            </menu>
+        </item>
+
+    </group>
+
+    <group android:checkableBehavior= "single"
+        android:id="@+id/group_nav_login_user">
+        <item
+            android:id= "@+id/nav_profile"
+            android:icon= "@drawable/menu_profile_icon"
+            android:title= "Profile" />
+        <item
+            android:id= "@+id/nav_medical_history"
+            android:icon= "@drawable/menu_medical_report_icon"
+            android:title= "Medical History" />
+        <item
+            android:id= "@+id/nav_user_appointment"
+            android:icon= "@drawable/menu_appointment_icon"
+            android:title= "Appointments" />
+
+
+    </group>
+
+    <item android:title= "Features"
+        android:id="@+id/group_nav_patient_features">
+        <menu>
+            <item
+                android:id= "@+id/nav_meet_specialist"
+                android:icon= "@drawable/menu_video_icon"
+                android:title= "Meet Specialist" />
+            <item
+                android:id= "@+id/nav_request_appointment"
+                android:icon= "@drawable/menu_message_icon"
+                android:title= "Request Appointment" />
+        </menu>
+    </item>
+
+    <item android:title= "Features"
+        android:id="@+id/group_nav_specialist_features">
+        <menu>
+            <item
+                android:id= "@+id/nav_specialist_appointment_schedule"
+                android:icon= "@drawable/menu_appointment_icon"
+                android:title= "Appointment Schedules" />
+            <item
+                android:id= "@+id/nav_specialist_waiting_room"
+                android:icon= "@drawable/menu_waiting_icon"
+                android:title= "Check Waiting Room" />
+
+
+        </menu>
+    </item>
+
+    <item
+        android:title= ""
+        android:id="@+id/group_nav_logout"
+        >
+
+        <menu>
+            <item
+                android:id= "@+id/nav_logout"
+                android:title= "Logout"/>
+        </menu>
+
+    </item>
+
+
+</menu>

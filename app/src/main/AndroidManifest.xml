@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:name=".SecureCareMobileApplication"
@@ -12,29 +14,28 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.SecureCareMobileApp"
+        android:theme="@style/AppTheme.SecureCareMobileApp.NoActionBar"
         tools:targetApi="31">
+
         <activity
-            android:name=".view.Patient.PatientTestList"
+            android:name=".view.user.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Test.TestAdd"
+            android:name=".view.user.UserProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.patient.PatientRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Patient.PatientAdd"
+            android:name=".view.specialist.SpecialistRegisterActivity"
             android:exported="false" />
+
         <activity
-            android:name=".view.Patient.PatientUpdate"
+            android:name=".view.patient.BookSpecialistAppointmentActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.Patient.PatientList"
-            android:exported="false" />
-        <activity
-            android:name=".view.Patient.PatientAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".view.LoginActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".view.MainActivity"
             android:exported="true">
