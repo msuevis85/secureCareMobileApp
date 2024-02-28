@@ -26,7 +26,7 @@
             android:layout_width="@dimen/login_txt_width"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:text="tnptv@gmail.com"
+            android:text="qhuyng@gmail.com"
             android:selectAllOnFocus="true"
             />
 

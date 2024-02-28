@@ -10,12 +10,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -23,15 +22,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.project.centennial.securecaremobileapp.R
-import com.project.centennial.securecaremobileapp.model.User
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
 import com.project.centennial.securecaremobileapp.utils.UserType
 import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 import com.project.centennial.securecaremobileapp.view.MainActivity
 import com.project.centennial.securecaremobileapp.view.patient.BookSpecialistAppointmentActivity
+import com.project.centennial.securecaremobileapp.view.patient.MedicalHistoryActivity
 import com.project.centennial.securecaremobileapp.view.patient.PatientRegisterActivity
 import com.project.centennial.securecaremobileapp.view.specialist.SpecialistRegisterActivity
-import com.project.centennial.securecaremobileapp.view.user.UserProfileActivity
+import com.project.centennial.securecaremobileapp.view.patient.PatientProfileActivity
+import com.project.centennial.securecaremobileapp.view.patient.RequestAppointmentActivity
+import com.project.centennial.securecaremobileapp.view.specialist.SpecialistProfileActivity
 
 
 open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +40,8 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private var token: String = ""
-    private var user: User? = null
+    private var usertypeid: Int = -1
+    private lateinit var user: Map<String, Any?>
 
     private lateinit var includeLayout: ConstraintLayout
     private lateinit var groupHeaderAuthorization: LinearLayout
@@ -125,10 +127,13 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
             navMenu.menu.removeGroup(R.id.group_nav_authorization)
 
             if(user != null){
-                usernameHeaderText.text = "${user!!.firstname} ${user!!.lastname}"
-                textView.text = "${user!!.firstname} ${user!!.lastname}"
+                usernameHeaderText.text = "${user!!["firstname"]} ${user!!["lastname"]}"
+                textView.text = "${user!!["firstname"]} ${user!!["lastname"]}"
+                usertypeid = (user!!["usertypeid"] as Double).toInt()
 
-                if(user!!.usertypeid == UserType.Specialist.id){
+
+
+                if(usertypeid == UserType.Specialist.id){
                     // specialist
                     navMenu.menu.removeItem(R.id.nav_medical_history)
                     navMenu.menu.removeItem(R.id.nav_user_appointment)
@@ -170,7 +175,6 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
         when (item.itemId) {
             R.id.nav_register_patient -> {
                 startActivity(Intent(this, PatientRegisterActivity::class.java))
-
             }
 
             R.id.nav_register_specialist -> {
@@ -189,12 +193,23 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
 
             R.id.nav_profile -> {
-                startActivity(Intent(this, UserProfileActivity::class.java))
+                if(usertypeid == UserType.Patient.id)
+                    startActivity(Intent(this, PatientProfileActivity::class.java))
+                else if(usertypeid == UserType.Specialist.id)
+                    startActivity(Intent(this, SpecialistProfileActivity::class.java))
 
             }
 
             R.id.nav_meet_specialist -> {
                 startActivity(Intent(this, BookSpecialistAppointmentActivity::class.java))
+            }
+
+            R.id.nav_request_appointment -> {
+                startActivity(Intent(this, RequestAppointmentActivity::class.java))
+            }
+
+            R.id.nav_medical_history -> {
+                startActivity(Intent(this, MedicalHistoryActivity::class.java))
             }
         }
         return true

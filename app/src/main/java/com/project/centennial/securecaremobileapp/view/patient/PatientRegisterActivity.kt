@@ -2,17 +2,12 @@ package com.project.centennial.securecaremobileapp.view.patient
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.project.centennial.securecaremobileapp.R
 import com.project.centennial.securecaremobileapp.databinding.ActivityPatientRegisterBinding
-import com.project.centennial.securecaremobileapp.model.User
 import com.project.centennial.securecaremobileapp.utils.Gender
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
 import com.project.centennial.securecaremobileapp.utils.UserType
@@ -20,7 +15,6 @@ import com.project.centennial.securecaremobileapp.utils.Utilities
 import com.project.centennial.securecaremobileapp.view.MainActivity
 import com.project.centennial.securecaremobileapp.view.shared.DatePickerFragment
 import com.project.centennial.securecaremobileapp.view.shared.DrawerBaseActivity
-import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 import com.project.centennial.securecaremobileapp.viewmodel.RegisterViewModel
 import kotlinx.coroutines.launch
 
@@ -142,19 +136,19 @@ class PatientRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateSele
 
         var usertypeid = UserType.Patient.id
 
-        userViewModel.register(
-            User(
-                "",
-                usertypeid,
-                email,
-                firstname,
-                lastname,
-                address,
-                phone,
-                gender,
-                dob
+        val body = mapOf(
+            "firstname" to firstname,
+            "lastname" to lastname,
+            "email" to email,
+            "password" to password,
+            "usertypeid" to usertypeid,
+            "phone" to phone,
+            "gender" to gender,
+            "dob" to dob,
+            "address" to address
+        )
 
-        ), password)
+        userViewModel.registerPatient(body)
 
     }
 }

@@ -1,23 +1,16 @@
 package com.project.centennial.securecaremobileapp.repository
 
 import android.util.Log
-import android.widget.Toast
-import com.project.centennial.securecaremobileapp.model.User
-import com.project.centennial.securecaremobileapp.model.UserResponse
+import com.project.centennial.securecaremobileapp.model.DataResponse
 import com.project.centennial.securecaremobileapp.network.SecureHealthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 
 class UserRepo {
-    suspend fun login(email: String, password: String) : UserResponse? {
+    suspend fun login(body: Map<String, Any>) : DataResponse? {
         return withContext(Dispatchers.IO) {
             try {
-                val body = mapOf(
-                    "email" to email,
-                    "password" to password
-                )
-
 
                 val service = SecureHealthService.userService
 
@@ -32,23 +25,13 @@ class UserRepo {
         }
     }
 
-    suspend fun register(user: User, password: String) : UserResponse? {
+    suspend fun registerPatient(body: Map<String, Any>) : DataResponse? {
         return withContext(Dispatchers.IO) {
             try {
 
-                val body = mapOf(
-                    "usertypeid" to user.usertypeid,
-                    "firstname" to user.firstname,
-                    "lastname" to user.lastname,
-                    "email" to user.email,
-                    "phone" to user.phone,
-                    "password" to password,
-                    "address" to user.address,
-                    "gender" to user.gender,
-                    "dob" to user.dob
-                )
+
                 val service = SecureHealthService.userService
-                val data = service.register(body)
+                val data = service.addPatient(body)
                 data
             } catch (ex: UnknownHostException) {
                 return@withContext null
@@ -59,7 +42,23 @@ class UserRepo {
         }
     }
 
-    suspend fun getProfile(token: String, userId: String, usertypeid: Int) : UserResponse? {
+    suspend fun registerSpecialist(body: Map<String, Any>) : DataResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val service = SecureHealthService.userService
+                val data = service.addSpecialist(body)
+                data
+            } catch (ex: UnknownHostException) {
+                return@withContext null
+            } catch (ex: Exception) {
+                Log.e("Repo", ex.message.toString())
+                return@withContext null
+            }
+        }
+    }
+
+    suspend fun getProfile(token: String, userId: String, usertypeid: Int) : DataResponse? {
         return withContext(Dispatchers.IO) {
             try {
                 Log.d("token: ", token)
@@ -78,12 +77,28 @@ class UserRepo {
         }
     }
 
-    suspend fun updateProfile(token: String, body: Map<String, Any>) : UserResponse? {
+    suspend fun updatePatient(token: String, body: Map<String, Any?>) : DataResponse? {
         return withContext(Dispatchers.IO) {
             try {
 
                 val service = SecureHealthService.userService
-                val data = service.updateProfile(token,body)
+                val data = service.updatePatient(token,body)
+                data
+            } catch (ex: UnknownHostException) {
+                return@withContext null
+            } catch (ex: Exception) {
+                Log.e("Repo", ex.message.toString())
+                return@withContext null
+            }
+        }
+    }
+
+    suspend fun updateSpecialist(token: String, body: Map<String, Any?>) : DataResponse? {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val service = SecureHealthService.userService
+                val data = service.updateSpecialist(token,body)
                 data
             } catch (ex: UnknownHostException) {
                 return@withContext null

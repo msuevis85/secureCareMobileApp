@@ -16,3 +16,6 @@ object SecureHealthService {
     val userService: UserApi = retrofit.create(UserApi::class.java)
     val consultationService: ConsultationApi = retrofit.create(ConsultationApi::class.java)
 }
+
+// https://telehealthapi.nguyentranvn.com
+// http://10.0.2.2:4000
