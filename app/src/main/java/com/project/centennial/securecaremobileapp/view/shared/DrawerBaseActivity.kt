@@ -196,6 +196,9 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
             R.id.nav_meet_specialist -> {
                 startActivity(Intent(this, BookSpecialistAppointmentActivity::class.java))
             }
+	    R.id.nav_user_appointment -> {
+                startActivity(Intent(this, ShowSpecialistScheduleActivity::class.java))
+            }
         }
         return true
     }
