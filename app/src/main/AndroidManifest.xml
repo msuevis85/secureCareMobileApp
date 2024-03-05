@@ -32,6 +32,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".view.specialist.ShowSpecialistScheduleActivity"
+            android:exported="false" />
+            
+        <activity
             android:name=".view.patient.BookSpecialistAppointmentActivity"
             android:exported="false" />
 
