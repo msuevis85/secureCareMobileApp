@@ -32,6 +32,7 @@ import com.project.centennial.securecaremobileapp.view.patient.PatientRegisterAc
 import com.project.centennial.securecaremobileapp.view.specialist.SpecialistRegisterActivity
 import com.project.centennial.securecaremobileapp.view.patient.PatientProfileActivity
 import com.project.centennial.securecaremobileapp.view.patient.RequestAppointmentActivity
+import com.project.centennial.securecaremobileapp.view.specialist.CheckingWaitingAppointmentsActivity
 import com.project.centennial.securecaremobileapp.view.specialist.SpecialistProfileActivity
 
 
@@ -210,6 +211,11 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
 
             R.id.nav_medical_history -> {
                 startActivity(Intent(this, MedicalHistoryActivity::class.java))
+            }
+
+            R.id.nav_specialist_waiting_room -> {
+                startActivity(Intent(this, CheckingWaitingAppointmentsActivity::class.java))
+
             }
         }
         return true

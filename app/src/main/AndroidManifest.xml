@@ -36,9 +36,7 @@
         <activity
             android:name=".view.patient.MedicalHistoryActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.specialist.SpecialistRegisterActivity"
-            android:exported="false" />
+
 
         <activity
             android:name=".view.patient.BookSpecialistAppointmentActivity"
@@ -46,6 +44,14 @@
 
         <activity
             android:name=".view.patient.RequestAppointmentActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.specialist.SpecialistRegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.specialist.CheckingWaitingAppointmentsActivity"
             android:exported="false" />
 
 

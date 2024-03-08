@@ -2,6 +2,7 @@ package com.project.centennial.securecaremobileapp.view.specialist
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -45,7 +46,7 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
     override fun onDateSelected(year: Int, month: Int, day: Int) {
 
         var txtMonth = if(month > 8 ) "${month + 1}" else "0${month + 1}"
-        var txtDay= if(day > 10 ) "$day" else "0${day}"
+        var txtDay= if(day > 9 ) "$day" else "0${day}"
         var selectedDate = "$year-${txtMonth}-$txtDay"
 
         binding.dayofbirthTextview.text = selectedDate
@@ -98,11 +99,11 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
                 if(it != null){
                     if(it.status){
                         sharedPreferencesHelper.saveUserInfo(it)
-                        // Log.d("Register: ", "Successfully")
+                        Log.d("Register: ", it.data.toString())
                         redirect()
                     }
                     else
-                        findViewById<TextView>(R.id.login_error).text = it.message
+                        binding.errorTextView.text = it.message
                 }
 
             }
@@ -142,7 +143,7 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
         }
 
         if(phone.isEmpty() || phone.length < 10){
-            binding.errorTextView.text = "The password must be at least 10 digits long and cannot be empty."
+            binding.errorTextView.text = "Phone number must be at least 10 digits long and cannot be empty."
             return
         }
 
