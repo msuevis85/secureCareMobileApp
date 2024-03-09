@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.patient.PatientAdd"
     android:orientation="vertical">
 
 
 
     <LinearLayout
-        android:id="@+id/insert_patient_container"
+        android:id="@+id/update_patient_container"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:gravity="center_horizontal"
@@ -19,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Specialist Register"
+            android:text="Specialist Profile"
             android:textStyle="bold"
             android:textSize="@dimen/heading_text_size"
             android:textColor="#214EF3"
@@ -55,18 +54,8 @@
                     android:textSize="@dimen/title_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_height"/>
-                <TextView
-                    android:maxLines="1"
-                    android:text="Email:"
-                    android:textSize="@dimen/title_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_height"/>
-                <TextView
-                    android:maxLines="1"
-                    android:text="Password:"
-                    android:textSize="@dimen/title_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_height"/>
+
+
 
                 <TextView
                     android:maxLines="1"
@@ -89,7 +78,7 @@
                     android:layout_height="@dimen/text_height"/>
                 <TextView
                     android:maxLines="1"
-                    android:text="Med-Specialty:"
+                    android:text="Specialization:"
                     android:textSize="@dimen/title_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_height"/>
@@ -144,26 +133,6 @@
 
                 </LinearLayout>
 
-
-
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_marginStart="@dimen/margin_start_16"
-                    android:maxLines="1"
-                    android:textSize="@dimen/title_text_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_height"/>
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_marginStart="@dimen/margin_start_16"
-                    android:maxLines="1"
-                    android:textSize="@dimen/title_text_size"
-                    android:inputType="textPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_height"/>
-
                 <EditText
                     android:id="@+id/phone"
                     android:layout_marginStart="@dimen/margin_start_16"
@@ -193,7 +162,7 @@
                     android:layout_marginStart="@dimen/margin_start_16"
                     android:textSize="@dimen/title_text_size"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/medical_specialty_spinner"
+                    android:id="@+id/specialiation_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_height"/>
             </LinearLayout>
@@ -220,13 +189,13 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
             <Button
-                android:id="@+id/insert_cancel_button"
+                android:id="@+id/cancel_button"
                 android:text="Cancel"
                 android:layout_width="@dimen/button_width"
                 android:layout_height="@dimen/button_height"/>
 
             <Button
-                android:id="@+id/insert_add_button"
+                android:id="@+id/save_button"
                 android:layout_marginStart="@dimen/margin_start_16"
                 android:text="Save"
                 android:layout_width="@dimen/button_width"

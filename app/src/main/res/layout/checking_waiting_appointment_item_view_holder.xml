@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
+
+    android:elevation="8dp"
+    app:cardCornerRadius="16dp"
+    card_view:cardBackgroundColor="@android:color/white"
+    card_view:cardElevation="9dp"
+    card_view:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:padding="8dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="4dp"
+            android:gravity="center_vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Created Time"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/created_time_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2024-03-14"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/medical_icon" />
+                <TextView
+                    android:id="@+id/medial_specialty_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Symptom:"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/datetime_linearlayout_container"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:id="@+id/meeting_symptom_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:maxLines="10"
+                    android:text="2024-02-10 09:00:00"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:layout_weight="1"
+                    android:paddingLeft="8dp" />
+
+
+
+            </LinearLayout>
+            <View
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/datetime_linearlayout_container"
+                android:background="#2A000000" />
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp">
+                <Button
+                    android:id="@+id/confirm_button"
+                    android:textSize="10dp"
+                    android:text="Confirm"
+                    android:layout_width="100dp"
+                    android:layout_height="32dp"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

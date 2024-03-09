@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00BCD4"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:id="@+id/screen_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request Appointment"
+        android:textStyle="bold"
+        android:textSize="@dimen/heading_text_size"
+        android:textColor="#FFEB3B"
+        android:layout_gravity="center_horizontal"
+        />
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/screen_title"
+        android:id="@+id/medical_specialty_container"
+        app:cardCornerRadius="6dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="40dp">
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:paddingLeft="16dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/title_medical_specialty"
+                android:textSize="@dimen/title_text_size"
+                android:text="Medical Specialty:"
+                android:layout_width="150dp"
+                android:textStyle="bold"
+                android:layout_height="@dimen/text_height"/>
+
+            <Spinner
+                android:id="@+id/spinner_medical_specialty"
+                android:textSize="@dimen/title_text_size"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/medical_specialty_container"
+        android:id="@+id/symptoms_container"
+        app:cardCornerRadius="6dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/title_symtomps"
+                android:textStyle="bold"
+                android:textSize="@dimen/title_text_size"
+                android:text="Your Symptom:"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:hint="Type here ..."
+                    android:id="@+id/symptom_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:inputType="text|textMultiLine"
+                    android:gravity="top"/>
+            </RadioGroup>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/book_appointment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Book Appointment"
+        app:layout_constraintTop_toBottomOf="@id/symptoms_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

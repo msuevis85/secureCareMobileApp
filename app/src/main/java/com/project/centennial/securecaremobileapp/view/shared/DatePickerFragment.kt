@@ -13,6 +13,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         fun onDateSelected(year: Int, month: Int, day: Int)
     }
 
+    private var minDate: Long = 0 // Minimum date
     // Listener reference variable
     private var dateSelectionListener: DateSelectionListener? = null
 
@@ -27,13 +28,19 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it.
-        return DatePickerDialog(requireContext(), this, year, month, day)
+        val datePickerDialog = DatePickerDialog(requireContext(), this, year, month, day)
+        // Set the minimum date
+        datePickerDialog.datePicker.minDate = minDate
 
+        return datePickerDialog
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         // Do something with the date the user picks.
         // Call the callback method with the selected date
         dateSelectionListener?.onDateSelected(year, month, day)
+    }
+    fun setMinDate(minDate: Long) {
+        this.minDate = minDate
     }
 }
