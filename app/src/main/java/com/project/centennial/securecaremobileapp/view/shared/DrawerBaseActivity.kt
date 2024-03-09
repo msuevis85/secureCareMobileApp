@@ -205,18 +205,6 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
                 startActivity(Intent(this, BookSpecialistAppointmentActivity::class.java))
             }
 
-            R.id.nav_request_appointment -> {
-                startActivity(Intent(this, RequestAppointmentActivity::class.java))
-            }
-
-            R.id.nav_medical_history -> {
-                startActivity(Intent(this, MedicalHistoryActivity::class.java))
-            }
-
-            R.id.nav_specialist_waiting_room -> {
-                startActivity(Intent(this, CheckingWaitingAppointmentsActivity::class.java))
-
-            }
         }
         return true
     }
