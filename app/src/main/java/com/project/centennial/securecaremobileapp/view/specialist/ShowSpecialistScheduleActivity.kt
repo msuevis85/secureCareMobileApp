@@ -1,24 +1,19 @@
 package com.project.centennial.securecaremobileapp.view.specialist
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.CalendarView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.project.centennial.securecaremobileapp.R
 import com.project.centennial.securecaremobileapp.databinding.ActivityShowSpecialistScheduleBinding
-import com.project.centennial.securecaremobileapp.model.DataArrayResponse
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
-import com.project.centennial.securecaremobileapp.view.shared.DatePickerFragment
 import com.project.centennial.securecaremobileapp.view.shared.DrawerBaseActivity
-import com.project.centennial.securecaremobileapp.view.specialist.adapters.SpecialistScheduleAdapter
-import com.project.centennial.securecaremobileapp.viewmodel.BookAppointmentViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
+import com.project.centennial.securecaremobileapp.adapters.SpecialistScheduleAdapter
+import com.project.centennial.securecaremobileapp.view.user.LoginActivity
+import com.project.centennial.securecaremobileapp.viewmodel.ShowSpecialistScheduleViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -31,7 +26,9 @@ class ShowSpecialistScheduleActivity : DrawerBaseActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SpecialistScheduleAdapter
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    private val viewModel: BookAppointmentViewModel by viewModels()
+    private val specialistViewModel: ShowSpecialistScheduleViewModel by viewModels()
+    private var token: String = ""
+    private var userid: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,17 +38,17 @@ class ShowSpecialistScheduleActivity : DrawerBaseActivity() {
         hideGroupHeaderAuthorization()
         sharedPreferencesHelper = SharedPreferencesHelper(this)
 
-        // Initialize RecyclerView
-        recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        checkToken()
+        listenerHandler()
+        setupRecyclerView()
+        setupCalendarView()
 
-        // Initialize adapter with empty list
-        val emptyDataArrayResponse = DataArrayResponse(status = false, message = "", data = emptyList())
-        adapter = SpecialistScheduleAdapter(emptyDataArrayResponse)
-        recyclerView.adapter = adapter
 
+    }
+
+    private fun setupCalendarView() {
         // Initialize CalendarView
-        val calendarView = findViewById<CalendarView>(R.id.calendarView)
+        val calendarView = binding.calendarView
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
@@ -63,46 +60,66 @@ class ShowSpecialistScheduleActivity : DrawerBaseActivity() {
         val currentDate = Calendar.getInstance().time
         fetchSpecialistSchedules(currentDate)
     }
+    private fun setupRecyclerView(){
+        // Initialize RecyclerView
+        recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-    private fun fetchSpecialistSchedules(date: Date) {
-        GlobalScope.launch(Dispatchers.Main) {
-            // Get token from SharedPreferences
-            val token = sharedPreferencesHelper.getUserToken()?.toString()
-            val userInfo = sharedPreferencesHelper.getUserInfo()
+        // Initialize adapter with empty list
 
-            if (token != null && userInfo != null && userInfo.userid != null) {
-                val specialistID = userInfo.userid
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val dateString = dateFormat.format(date)
-                Log.d("Token : ", token.toString())
-                // Call ViewModel to fetch specialist schedules
-                viewModel.getSpecialistSchedules("token", dateString, specialistID)
+        val emptyDataArrayResponse: List<Map<String, Any>> = emptyList()
+        adapter = SpecialistScheduleAdapter(emptyDataArrayResponse)
+        recyclerView.adapter = adapter
+    }
+    private fun checkToken() {
+        token = sharedPreferencesHelper.getUserToken().toString();
+        var user = sharedPreferencesHelper.getUserInfo()
 
+        if(token == "" || user["userid"].toString().isEmpty()){
 
-                // Observe the ViewModel's state flow
-                viewModel.schedulesStateFlow.collect { response ->
-                    if (response != null && response.status) {
-                        // Update RecyclerView adapter with fetched data
-                        adapter.updateList(response)
+            startActivity(Intent(this, LoginActivity::class.java))
+            return
+        }
+        userid = user["userid"].toString()
+
+        //specialistViewModel.getSchedulesByDate(token,userid,"2024-03-10")
+
+    }
+
+    private fun listenerHandler(){
+        lifecycleScope.launch {
+            specialistViewModel.schedulesStateFlow.collect {
+                if (it != null) {
+                    if (it.status) {
+                        adapter.updateList(it.data)
+                        if(it.data.isEmpty())
+                            showToast("No Appointment")
                     } else {
-                        // Handle error
-                        // Show error message or retry logic
-                        Toast.makeText(
-                            this@ShowSpecialistScheduleActivity,
-                            "Error fetching schedules",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast("Error fetching schedules")
                     }
+
                 }
-            } else {
-                // Show error message
-                Toast.makeText(
-                    this@ShowSpecialistScheduleActivity,
-                    "User information or token is not available.",
-                    Toast.LENGTH_SHORT
-                ).show()
+
             }
         }
+    }
+    private fun showToast(message: String){
+        Toast.makeText(
+            this@ShowSpecialistScheduleActivity,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun fetchSpecialistSchedules(date: Date) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateString = dateFormat.format(date)
+        //Log.d("Specialist Schedule: token: ",token )
+        //Log.d("Specialist Schedule: userid: ",userid )
+        //Log.d("Specialist Schedule: dateString: ",dateString )
+
+        specialistViewModel.getSchedulesByDate(token,userid,dateString)
+
     }
 
 

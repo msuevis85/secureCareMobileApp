@@ -1,36 +1,32 @@
-package com.project.centennial.securecaremobileapp.view.user
+package com.project.centennial.securecaremobileapp.view.patient
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.project.centennial.securecaremobileapp.R
-import com.project.centennial.securecaremobileapp.databinding.ActivityUserProfileBinding
-import com.project.centennial.securecaremobileapp.model.User
-import com.project.centennial.securecaremobileapp.model.UserResponse
+import com.project.centennial.securecaremobileapp.databinding.ActivityPatientProfileBinding
 import com.project.centennial.securecaremobileapp.utils.Gender
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
-import com.project.centennial.securecaremobileapp.utils.UserType
-import com.project.centennial.securecaremobileapp.utils.Utilities
+import com.project.centennial.securecaremobileapp.view.MainActivity
 import com.project.centennial.securecaremobileapp.view.shared.DatePickerFragment
 import com.project.centennial.securecaremobileapp.view.shared.DrawerBaseActivity
+import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 import com.project.centennial.securecaremobileapp.viewmodel.UserProfileViewModel
 import kotlinx.coroutines.launch
 
-class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectionListener{
-    private lateinit var binding: ActivityUserProfileBinding
+class PatientProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectionListener{
+    private lateinit var binding: ActivityPatientProfileBinding
     private val userViewModel: UserProfileViewModel by viewModels()
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private var genderId: String = "";
     private lateinit var selectedDate: String;
-    private lateinit var user: User;
+    private lateinit var user: Map<String, Any>;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserProfileBinding.inflate(layoutInflater)
+        binding = ActivityPatientProfileBinding.inflate(layoutInflater)
         setContentView(binding.root);
         sharedPreferencesHelper = SharedPreferencesHelper(this)
 
@@ -40,31 +36,34 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
         var token = sharedPreferencesHelper.getUserToken();
         var user = sharedPreferencesHelper.getUserInfo()
 
-        userViewModel.getProfile(token!!, user!!.userid, user!!.usertypeid)
+        userViewModel.getProfile(token!!, user!!["userid"].toString(), (user!!["usertypeid"] as Double).toInt())
 
         binding.saveButton.setOnClickListener{onSave(token)}
         binding.dayofbirthButton.setOnClickListener{clickDobButton()}
+        binding.cancelButton.setOnClickListener{
+            startActivity(Intent(this, MainActivity::class.java))
+        }
 
     }
 
     override fun onDateSelected(year: Int, month: Int, day: Int) {
 
         var txtMonth = if(month > 8 ) "${month + 1}" else "0${month + 1}"
-        var txtDay= if(day > 10 ) "$day" else "0${day}"
+        var txtDay= if(day > 9 ) "$day" else "0${day}"
         selectedDate = "$year-${txtMonth}-$txtDay"
         binding.dayofbirthTextview.text = selectedDate
     }
 
-    private fun setUserInfoText(_user: User){
+    private fun setUserInfoText(_user: Map<String, Any>){
         user = _user;
-        binding.firstname.setText(user.firstname)
-        binding.lastname.setText(user.lastname)
-        binding.dayofbirthTextview.text = user.dob
-        binding.phone.setText(user.phone)
-        binding.address.setText(user.address)
-        genderId = user.gender
+        binding.firstname.setText(user["firstname"].toString())
+        binding.lastname.setText(user["lastname"].toString())
+        binding.dayofbirthTextview.text = user["dob"].toString()
+        binding.phone.setText(user["phone"].toString())
+        binding.address.setText(user["address"].toString())
+        genderId = user["gender"].toString()
 
-        Toast.makeText(this, "usertypeId: ${user.usertypeid}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "usertypeId: ${user["usertypeid"]}", Toast.LENGTH_LONG).show()
 
     }
 
@@ -87,7 +86,10 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
     }
 
     private fun showResultMessage(message: String){
+        binding.errorTextView.text = ""
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun listenerHandler() {
@@ -96,7 +98,7 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
                 if(it != null){
                     if(it.status){
                         sharedPreferencesHelper.saveUserInfo(it)
-                        setUserInfoText(it.user)
+                        setUserInfoText(it.data)
                         Log.d("Register: ", "Successfully")
                     }
                     else
@@ -112,6 +114,7 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
                     if(it.status){
                         sharedPreferencesHelper.saveUserInfo(it)
                         showResultMessage(it.message)
+                        updateHeaderName()
                     }
                     else
                         binding.errorTextView.text = it.message
@@ -136,7 +139,7 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
         }
 
         if(phone.isEmpty() || phone.length < 10){
-            binding.errorTextView.text = "The password must be at least 10 digits long and cannot be empty."
+            binding.errorTextView.text = "The phone must be at least 10 digits long and cannot be empty."
             return
         }
 
@@ -151,10 +154,10 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
         }
 
         var data =  mapOf(
-            "userid" to user.userid,
+            "userid" to user["userid"],
             "firstname" to firstname,
             "lastname" to lastname,
-            "usertypeid" to user.usertypeid,
+            "usertypeid" to user["usertypeid"],
             "phone" to phone,
             "address" to address,
             "gender" to gender,
@@ -163,7 +166,7 @@ class UserProfileActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectio
 
         Toast.makeText(this, "Updated Info: ${data}", Toast.LENGTH_LONG ).show()
 
-        userViewModel.updateProfile(token,data)
+        userViewModel.updatePatient(token, data)
 
     }
 }

@@ -5,8 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.project.centennial.securecaremobileapp.model.DataArrayResponse
 import com.project.centennial.securecaremobileapp.model.DataResponse
 import com.project.centennial.securecaremobileapp.repository.ConsultationRepo
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -14,22 +17,23 @@ import kotlinx.coroutines.launch
 class BookAppointmentViewModel: ViewModel()  {
 
     private val consultationRepo: ConsultationRepo = ConsultationRepo()
-    private var _specialistsStateFlow = MutableStateFlow<DataArrayResponse?>(null)
-    val specialistsStateFlow: StateFlow<DataArrayResponse?> = _specialistsStateFlow.asStateFlow()
+    private var _specialistsStateFlow = MutableSharedFlow<DataArrayResponse?>(0)
+    val specialistsStateFlow: SharedFlow<DataArrayResponse?> = _specialistsStateFlow.asSharedFlow()
 
-    private var _schedulesStateFlow = MutableStateFlow<DataArrayResponse?>(null)
-    val schedulesStateFlow: StateFlow<DataArrayResponse?> = _schedulesStateFlow.asStateFlow()
+    private var _schedulesStateFlow = MutableSharedFlow<DataArrayResponse?>(0)
+    val schedulesStateFlow: SharedFlow<DataArrayResponse?> = _schedulesStateFlow.asSharedFlow()
 
-    private var _appointmentStateFlow = MutableStateFlow<DataResponse?>(null)
-    val appointmentStateFlow: StateFlow<DataResponse?> = _appointmentStateFlow.asStateFlow()
+    private var _appointmentStateFlow = MutableSharedFlow<DataResponse?>(0)
+    val appointmentStateFlow: SharedFlow<DataResponse?> = _appointmentStateFlow.asSharedFlow()
 
-    fun getSpecialists(token: String) {
+    private var _medicalSpecialtiesStateFlow = MutableSharedFlow<DataArrayResponse?>(0)
+    val medicalSpecialtiesStateFlow: SharedFlow<DataArrayResponse?> = _medicalSpecialtiesStateFlow.asSharedFlow()
+
+    fun getSpecialists(token: String, medicalspecialtyid: Int) {
         viewModelScope.launch {
-            val data = consultationRepo.getSpecialists(token)
+            val data = consultationRepo.getSpecialists(token, medicalspecialtyid)
             if (data != null) {
-                _specialistsStateFlow.update {
-                    data
-                }
+                _specialistsStateFlow.emit(data)
             }
         }
     }
@@ -40,20 +44,25 @@ class BookAppointmentViewModel: ViewModel()  {
         viewModelScope.launch {
             val data = consultationRepo.getSpecialistSchedules(token,date,specialistid)
             if (data != null) {
-                _schedulesStateFlow.update {
-                    data
-                }
+                _schedulesStateFlow.emit(data)
             }
         }
     }
 
-    fun bookAppointment(token: String, body: Map<String, String>) {
+    fun bookAppointment(token: String, body: Map<String, Any?>) {
         viewModelScope.launch {
             val data = consultationRepo.bookAppointment(token,body)
             if (data != null) {
-                _appointmentStateFlow.update {
-                    data
-                }
+                _appointmentStateFlow.emit(data)
+            }
+        }
+    }
+
+    fun getMedicalSpecialties() {
+        viewModelScope.launch {
+            val data = consultationRepo.getMedicalSpecialties()
+            if (data != null) {
+                _medicalSpecialtiesStateFlow.emit(data)
             }
         }
     }

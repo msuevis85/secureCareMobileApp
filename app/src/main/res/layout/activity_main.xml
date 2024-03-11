@@ -3,38 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DAEDFE"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-  
 
     <LinearLayout
-
         android:id="@+id/linear_layout"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_gravity="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+
+
         <EditText
-            android:paddingLeft="10dp"
             android:id="@+id/search_term"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@id/search_button"
-            android:background="@drawable/rounded_corner"
-            android:hint="Search specialists" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:hint="Search specialists"
+            android:background="@drawable/rounded_corner" />
 
         <Button
-            android:layout_marginLeft="8dp"
+            android:paddingRight="8dp"
             android:id="@+id/search_button"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginLeft="-50dp"
             android:background="@drawable/search_icon" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_data_textview"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout"
+        android:paddingTop="30dp"
+        android:textStyle="bold"
+        android:text="No specialists found"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

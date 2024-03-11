@@ -87,6 +87,12 @@
                     android:textSize="@dimen/title_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_height"/>
+                <TextView
+                    android:maxLines="1"
+                    android:text="Med-Specialty:"
+                    android:textSize="@dimen/title_text_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_height"/>
             </LinearLayout>
 
             <LinearLayout
@@ -180,6 +186,14 @@
                     android:textSize="@dimen/title_text_size"
                     app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/gender_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_height"/>
+
+                <Spinner
+                    android:layout_marginStart="@dimen/margin_start_16"
+                    android:textSize="@dimen/title_text_size"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:id="@+id/medical_specialty_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/text_height"/>
             </LinearLayout>

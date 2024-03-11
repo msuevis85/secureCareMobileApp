@@ -20,34 +20,38 @@ import com.project.centennial.securecaremobileapp.view.shared.DrawerBaseActivity
 import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 import com.project.centennial.securecaremobileapp.viewmodel.BookAppointmentViewModel
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragment.DateSelectionListener {
     private lateinit var binding: ActivityBookSpecialistAppointmentBinding
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private val bookApmtViewModel: BookAppointmentViewModel by viewModels()
-    private lateinit var selectedSpecialistId: String
-    private lateinit var token: String
-    private lateinit var selectedTime: String
+    private  var selectedSpecialistId: String = ""
+    private var medicalspecialtyid: Int = -1;
+    private var token: String = ""
+    private var selectedTime: String = ""
     private lateinit var selectedDate: String
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBookSpecialistAppointmentBinding.inflate(layoutInflater)
         allocateActivityTitle("Book Specialist Appointment")
         setContentView(binding.root);
+        selectedSpecialistId = intent.getStringExtra("SPECIALIST_ID").toString()
         sharedPreferencesHelper = SharedPreferencesHelper(this)
-        binding.dateButton.setOnClickListener{clickDateButton()}
-        binding.bookAppointmentButton.setOnClickListener{clickBookAppointment()}
+
         listenerHandler()
         checkToken()
+
+        binding.dateButton.setOnClickListener{clickDateButton()}
+        binding.bookAppointmentButton.setOnClickListener{clickBookAppointment()}
+
     }
 
     override fun onDateSelected(year: Int, month: Int, day: Int) {
 
         var txtMonth = if(month > 8 ) "${month + 1}" else "0${month + 1}"
-        var txtDay= if(day > 10 ) "$day" else "0${day}"
+        var txtDay= if(day > 9 ) "$day" else "0${day}"
         selectedDate = "$year-${txtMonth}-$txtDay"
         binding.dateTextview.text = selectedDate
 
@@ -58,14 +62,14 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
         token = sharedPreferencesHelper.getUserToken().toString();
         if(token == ""){
             startActivity(Intent(this, LoginActivity::class.java))
-        } else {
-            bookApmtViewModel.getSpecialists(token!!);
+            return
         }
+        bookApmtViewModel.getMedicalSpecialties();
     }
 
     private fun setSpecialistSpinner(specialists: List<Map<String, Any>>) {
         val specialistList: List<Pair<String, String>> = specialists.map {
-            val id: String = it["specialistid"] as String?:""
+            val id: String = it["specialistid"] as String
             val name = "${it["firstname"]} ${it["lastname"]}" as? String ?: ""
             Pair(name, id)
         }
@@ -79,6 +83,12 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSpecialists.adapter = adapter
 
+        val defaultPosition = specialistList.indexOfFirst { it.second == selectedSpecialistId }
+
+        if (defaultPosition != -1) {
+            binding.spinnerSpecialists.setSelection(defaultPosition)
+        }
+
         binding.spinnerSpecialists.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 selectedSpecialistId = specialistList[position].second
@@ -90,42 +100,76 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
             }
         }
     }
+
+    private fun setMedicalSpecialtySpinner(data: List<Map<String, Any>>) {
+        val adapter = ArrayAdapter (
+            this,
+            android.R.layout.simple_spinner_item,
+            data.map { it["name"].toString() } // Extracting the "name" value from each map
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerMedicalSpecialty.adapter = adapter
+
+        binding.spinnerMedicalSpecialty.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                medicalspecialtyid = data[position]["medicalspecialtyid"].toString().toInt()
+
+                bookApmtViewModel.getSpecialists(token, medicalspecialtyid)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+    }
     private fun setTimeRadioGroup(hours: List<Map<String, Any>>){
         val hoursList: List<String> = hours.map { it["starttime"] as? String ?: "" }
         Toast.makeText(this, "setTimeRadioGroup: ${hoursList.size}", Toast.LENGTH_SHORT).show()
 
-        var layout: LinearLayout? = null
         var checkedRadioButtonId = -1
+        selectedTime = ""
+
+        binding.radiosColumn1.removeAllViews()
+        binding.radiosColumn2.removeAllViews()
+        binding.radiosColumn3.removeAllViews()
+        binding.radiosColumn4.removeAllViews()
+
         hoursList.forEachIndexed { index, optionText ->
             val radioButton = RadioButton(this)
             radioButton.text = optionText
+            radioButton.textSize = 14f
             radioButton.id = index // Set a unique id for each RadioButton
 
-            if(index % 2 == 0){
-                layout = LinearLayout(this)
-                binding.radiogroupContainer.addView(layout)
-                layout!!.addView(radioButton)
+            if(index % 4 == 0){
+                binding.radiosColumn1.addView(radioButton)
+            } else if (index % 4 == 1) {
+                binding.radiosColumn2.addView(radioButton)
+            } else if (index % 4 == 2) {
+                binding.radiosColumn3.addView(radioButton)
+            } else  binding.radiosColumn4.addView(radioButton)
 
-                val layoutParams = radioButton.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.leftMargin = 5 // Set the start margin in pixels
-                radioButton.layoutParams = layoutParams
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            radioButton.layoutParams = params
 
-            } else {
-                layout!!.addView(radioButton)
-                layout = null;
-                val layoutParams = radioButton.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.rightMargin = 5 // Set the start margin in pixels
-                radioButton.layoutParams = layoutParams
-            }
+
 
             radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
                     if(checkedRadioButtonId != -1) {
-                        var indexLayout = checkedRadioButtonId/2
-                        var indexRadioBtn = checkedRadioButtonId %2
-                        var prevLayout = binding.radiogroupContainer.getChildAt(indexLayout) as LinearLayout
-                        var radidoBtn = prevLayout.getChildAt(indexRadioBtn) as RadioButton
-                        radidoBtn.isChecked = false
+                        var indexLayout = (checkedRadioButtonId % 4 )
+
+                        val parentLayout: LinearLayout = binding.radiogroupContainer.getChildAt(indexLayout) as LinearLayout
+
+                        for (i in 0 until parentLayout.childCount) {
+                            var radidoBtn = parentLayout.getChildAt(i) as RadioButton
+                            if(radidoBtn.id == checkedRadioButtonId ){
+                                radidoBtn.isChecked = false
+                                continue
+                            }
+                        }
+
                     }
                     checkedRadioButtonId = buttonView.id
                     selectedTime = hoursList[checkedRadioButtonId]
@@ -139,28 +183,44 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
     }
 
     private fun clickDateButton(){
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        // Check if current time is later than 16:30
+        if (currentHour > 16 || (currentHour == 16 && currentMinute >= 30)) {
+            // Set available day to tomorrow
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
         val newFragment = DatePickerFragment()
         newFragment.setDateSelectionListener(this) // Set the listener
+        newFragment.setMinDate(calendar.timeInMillis) // Set the minimum date
         newFragment.show(supportFragmentManager, "datePicker")
     }
 
     private fun clickBookAppointment() {
-        var userId = sharedPreferencesHelper.getUserInfo()!!.userid
+
+
+        var userId = sharedPreferencesHelper.getUserInfo()["userid"]
 
         val obj = mapOf(
             "specialistid" to selectedSpecialistId,
             "userid" to userId,
+            "medicalspecialtyid" to medicalspecialtyid,
+            "symptom" to "",
             "meetingtime" to selectedTime,
             "meetingdate" to selectedDate
 
         )
 
-        bookApmtViewModel.bookAppointment(token, body = obj)
+
+        bookApmtViewModel.bookAppointment(token, obj)
     }
 
     private fun showBookedAppointment(response: DataResponse) {
 
-        if(response.status && response.data != null){
+        if(response.status ){
             val meetingtime: String? = response.data["meetingtime"] as? String
             val meetingdate: String? = response.data["meetingdate"] as? String
             val status: String? = response.data["status"] as? String
@@ -174,23 +234,22 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
 
     }
     private fun listenerHandler() {
+        // get specialists by medicalspecialtyid
         lifecycleScope.launch {
             bookApmtViewModel.specialistsStateFlow.collect {
                 if(it != null){
-                    //Log.d("Book Appointment: ", "Successfully ${it.status}")
-                    //Log.d("Book Appointment data: ", "Successfully ${it.specialists}")
                     val specialists: List<Map<String, Any>> = it.data
-
-                    // Accessing values from the specialists map
-                    /* val specialistName: String? = specialists[0]["firstname"] as? String
-                    val specialistId: String? = specialists[0]["lastname"] as? String
-                    Log.d("Book Appointment: ", "specialistName ${specialistName}")
-                    */
                     setSpecialistSpinner(specialists)
-
                 }
+            }
+        }
 
-
+        // get medical specialties
+        lifecycleScope.launch {
+            bookApmtViewModel.medicalSpecialtiesStateFlow.collect {
+                if(it != null){
+                    setMedicalSpecialtySpinner(it.data)
+                }
             }
         }
 
@@ -213,6 +272,8 @@ class BookSpecialistAppointmentActivity: DrawerBaseActivity(), DatePickerFragmen
                 }
             }
         }
+
+
     }
 
 

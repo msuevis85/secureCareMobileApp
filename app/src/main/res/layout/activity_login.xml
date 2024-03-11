@@ -26,7 +26,7 @@
             android:layout_width="@dimen/login_txt_width"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:text="tnptv@gmail.com"
+            android:text=""
             android:selectAllOnFocus="true"
             />
 
@@ -35,7 +35,7 @@
             android:layout_width="@dimen/login_txt_width"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:text="123456789"
+            android:text=""
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/login_error"
-            android:text="show error"
+            android:text=""
             android:textAlignment="textEnd"
             android:textColor="#E91E63"
             android:layout_width="@dimen/login_txt_width"

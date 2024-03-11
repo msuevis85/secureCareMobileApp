@@ -48,7 +48,11 @@ class LoginActivity : DrawerBaseActivity() {
             binding.loginError.text = "Invalid Password."
         }else {
             // userViewModel.loginWithApi("nihealth@gmail.com","123456787")
-            userViewModel.loginWithApi(email,password)
+            val body = mapOf(
+                "email" to email,
+                "password" to password
+            )
+            userViewModel.loginWithApi(body)
         }
     }
 
@@ -70,8 +74,8 @@ class LoginActivity : DrawerBaseActivity() {
                     if(it.status){
                         sharedPreferencesHelper.saveUserInfo(it)
                         loginSuccessfully()
-                        Log.d("Login: ", "successfully ${it.user.firstname}")
-                        Log.d("Login: ", "successfully ${it.user.usertypeid}")
+                        Log.d("Login: ", "successfully ${it.data["firstname"]}")
+                        Log.d("Login: ", "successfully ${it.data["usertypeid"]}")
                     }
                     else
                         binding.loginError.text = it.message
@@ -79,17 +83,6 @@ class LoginActivity : DrawerBaseActivity() {
 
             }
         }
-    }
-
-
-
-    private fun addSession(nurseId: Int, firstname: String, lastName: String){
-        val myPreference = getSharedPreferences("session", MODE_PRIVATE)
-        val preferenceEditor = myPreference.edit()
-        preferenceEditor.putString("nurseId", nurseId.toString())
-        preferenceEditor.putString("firstname", firstname)
-        preferenceEditor.putString("lastName", lastName)
-        preferenceEditor.commit()
     }
 
 

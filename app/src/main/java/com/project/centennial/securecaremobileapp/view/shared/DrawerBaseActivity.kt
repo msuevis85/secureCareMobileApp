@@ -2,6 +2,7 @@ package com.project.centennial.securecaremobileapp.view.shared
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,12 +11,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -23,15 +23,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.project.centennial.securecaremobileapp.R
-import com.project.centennial.securecaremobileapp.model.User
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
 import com.project.centennial.securecaremobileapp.utils.UserType
-import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 import com.project.centennial.securecaremobileapp.view.MainActivity
 import com.project.centennial.securecaremobileapp.view.patient.BookSpecialistAppointmentActivity
+import com.project.centennial.securecaremobileapp.view.patient.MedicalHistoryActivity
+import com.project.centennial.securecaremobileapp.view.patient.PatientProfileActivity
 import com.project.centennial.securecaremobileapp.view.patient.PatientRegisterActivity
+import com.project.centennial.securecaremobileapp.view.patient.RequestAppointmentActivity
+import com.project.centennial.securecaremobileapp.view.specialist.CheckingWaitingAppointmentsActivity
+import com.project.centennial.securecaremobileapp.view.specialist.ShowSpecialistScheduleActivity
+import com.project.centennial.securecaremobileapp.view.specialist.SpecialistProfileActivity
 import com.project.centennial.securecaremobileapp.view.specialist.SpecialistRegisterActivity
-import com.project.centennial.securecaremobileapp.view.user.UserProfileActivity
+import com.project.centennial.securecaremobileapp.view.user.LoginActivity
 
 
 open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -39,11 +43,13 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private var token: String = ""
-    private var user: User? = null
+    private var usertypeid: Int = -1
+    private lateinit var user: Map<String, Any?>
 
     private lateinit var includeLayout: ConstraintLayout
     private lateinit var groupHeaderAuthorization: LinearLayout
     private lateinit var usernameHeaderText: TextView
+    private lateinit var main_drawer_header_username: TextView
 
     override fun setContentView(view: View?) {
         drawerLayout = LayoutInflater.from(this).inflate(R.layout.activity_drawer_base, null) as DrawerLayout
@@ -91,7 +97,12 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
     }
 
 
-
+    fun updateHeaderName(){
+        user = sharedPreferencesHelper.getUserInfo()
+        var welcomeName = "${user!!["firstname"]} ${user!!["lastname"]}";
+        usernameHeaderText.text = welcomeName
+        main_drawer_header_username.text = welcomeName
+    }
 
     private fun setMenuOptions(){
         // find nav menu
@@ -111,7 +122,7 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
 
         // find drawer header
         val headerView = navMenu.getHeaderView(0)
-        val textView = headerView.findViewById<TextView>(R.id.main_drawer_header_username)
+        main_drawer_header_username = headerView.findViewById<TextView>(R.id.main_drawer_header_username)
 
         user = sharedPreferencesHelper.getUserInfo()
         token = sharedPreferencesHelper.getUserToken().toString()
@@ -125,10 +136,15 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
             navMenu.menu.removeGroup(R.id.group_nav_authorization)
 
             if(user != null){
-                usernameHeaderText.text = "${user!!.firstname} ${user!!.lastname}"
-                textView.text = "${user!!.firstname} ${user!!.lastname}"
+                var welcomeName = "${user!!["firstname"]} ${user!!["lastname"]}";
+                //Log.d("Drawer Base:"," $welcomeName")
+                usernameHeaderText.text = welcomeName
+                main_drawer_header_username.text = welcomeName
+                usertypeid = (user!!["usertypeid"] as Double).toInt()
 
-                if(user!!.usertypeid == UserType.Specialist.id){
+
+
+                if(usertypeid == UserType.Specialist.id){
                     // specialist
                     navMenu.menu.removeItem(R.id.nav_medical_history)
                     navMenu.menu.removeItem(R.id.nav_user_appointment)
@@ -170,7 +186,6 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
         when (item.itemId) {
             R.id.nav_register_patient -> {
                 startActivity(Intent(this, PatientRegisterActivity::class.java))
-
             }
 
             R.id.nav_register_specialist -> {
@@ -189,15 +204,46 @@ open class DrawerBaseActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
 
             R.id.nav_profile -> {
-                startActivity(Intent(this, UserProfileActivity::class.java))
+                if(usertypeid == UserType.Patient.id)
+                {
+                    val intent = Intent(this, PatientProfileActivity::class.java)
+                    intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                }
+
+                else if(usertypeid == UserType.Specialist.id)
+                {
+                    val intent = Intent(this, SpecialistProfileActivity::class.java)
+                    intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    startActivity(intent)
+                }
 
             }
 
             R.id.nav_meet_specialist -> {
                 startActivity(Intent(this, BookSpecialistAppointmentActivity::class.java))
             }
-	    R.id.nav_user_appointment -> {
+
+            R.id.nav_request_appointment -> {
+                startActivity(Intent(this, RequestAppointmentActivity::class.java))
+            }
+
+            R.id.nav_medical_history -> {
+                startActivity(Intent(this, MedicalHistoryActivity::class.java))
+            }
+
+            R.id.nav_specialist_waiting_room -> {
+                startActivity(Intent(this, CheckingWaitingAppointmentsActivity::class.java))
+
+            }
+
+            R.id.nav_specialist_appointment_schedule -> {
                 startActivity(Intent(this, ShowSpecialistScheduleActivity::class.java))
+
             }
         }
         return true

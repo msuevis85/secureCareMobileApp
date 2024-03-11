@@ -1,41 +1,42 @@
-package com.project.centennial.securecaremobileapp.view.specialist.adapters
+package com.project.centennial.securecaremobileapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.project.centennial.securecaremobileapp.R
-import com.project.centennial.securecaremobileapp.model.DataArrayResponse
+import com.project.centennial.securecaremobileapp.databinding.ItemSpecialistScheduleBinding
 
-class SpecialistScheduleAdapter(private var dataArrayResponse: DataArrayResponse) :
+class SpecialistScheduleAdapter(private var dataArrayResponse: List<Map<String, Any>>) :
     RecyclerView.Adapter<SpecialistScheduleAdapter.SpecialistScheduleViewHolder>() {
 
-    fun updateList(newList: DataArrayResponse) {
+    fun updateList(newList: List<Map<String, Any>>) {
         dataArrayResponse = newList
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecialistScheduleViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_specialist_schedule, parent, false)
-        return SpecialistScheduleViewHolder(view)
+        val binding = ItemSpecialistScheduleBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        return SpecialistScheduleViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SpecialistScheduleViewHolder, position: Int) {
-        val specialistSchedule = dataArrayResponse.data[position]
+        val specialistSchedule = dataArrayResponse[position]
         holder.bind(specialistSchedule)
     }
 
     override fun getItemCount(): Int {
-        return dataArrayResponse.data.size
+        return dataArrayResponse.size
     }
 
-    inner class SpecialistScheduleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val timeTextView: TextView = itemView.findViewById(R.id.timeTextView)
-        private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
+    inner class SpecialistScheduleViewHolder(private val binding: ItemSpecialistScheduleBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(specialistSchedule: Map<String, Any>) {
-            timeTextView.text = specialistSchedule["time"] as? String
-            descriptionTextView.text = specialistSchedule["description"] as? String
+            binding.timeTextView.text = specialistSchedule["meetingtime"] as? String
+            binding.descriptionTextView.text = specialistSchedule["symptom"] as? String
         }
     }
 }

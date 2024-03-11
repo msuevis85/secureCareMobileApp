@@ -3,14 +3,14 @@ package com.project.centennial.securecaremobileapp.view.specialist
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.project.centennial.securecaremobileapp.R
-import com.project.centennial.securecaremobileapp.databinding.ActivityPatientRegisterBinding
 import com.project.centennial.securecaremobileapp.databinding.ActivitySpecialistRegisterBinding
-import com.project.centennial.securecaremobileapp.model.User
 import com.project.centennial.securecaremobileapp.utils.Gender
 import com.project.centennial.securecaremobileapp.utils.SharedPreferencesHelper
 import com.project.centennial.securecaremobileapp.utils.UserType
@@ -25,6 +25,8 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
     private lateinit var binding: ActivitySpecialistRegisterBinding
     private val userViewModel: RegisterViewModel by viewModels()
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private var medicalspecialtyid: Int = -1;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySpecialistRegisterBinding.inflate(layoutInflater)
@@ -38,12 +40,13 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
 
         setGenderSpinner()
         listenerHandler()
+        userViewModel.getMedicalSpecialties();
     }
 
     override fun onDateSelected(year: Int, month: Int, day: Int) {
 
         var txtMonth = if(month > 8 ) "${month + 1}" else "0${month + 1}"
-        var txtDay= if(day > 10 ) "$day" else "0${day}"
+        var txtDay= if(day > 9 ) "$day" else "0${day}"
         var selectedDate = "$year-${txtMonth}-$txtDay"
 
         binding.dayofbirthTextview.text = selectedDate
@@ -59,6 +62,26 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
         )
         binding.genderSpinner.adapter = adapter
 
+    }
+
+    private fun setMedicalSpecialtySpinner(data: List<Map<String, Any>>) {
+        val adapter = ArrayAdapter (
+            this,
+            android.R.layout.simple_spinner_item,
+            data.map { it["name"].toString() } // Extracting the "name" value from each map
+        )
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.medicalSpecialtySpinner.adapter = adapter
+
+        binding.medicalSpecialtySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                medicalspecialtyid = data[position]["medicalspecialtyid"].toString().toInt()
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
     }
     private fun clickDobButton(){
         val newFragment = DatePickerFragment()
@@ -76,11 +99,24 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
                 if(it != null){
                     if(it.status){
                         sharedPreferencesHelper.saveUserInfo(it)
-                        // Log.d("Register: ", "Successfully")
+                        Log.d("Register: ", it.data.toString())
                         redirect()
                     }
                     else
-                        findViewById<TextView>(R.id.login_error).text = it.message
+                        binding.errorTextView.text = it.message
+                }
+
+            }
+        }
+
+        lifecycleScope.launch {
+            userViewModel.medSpecialtiesStateFlow.collect {
+                if(it != null){
+                    if(it.status){
+                       setMedicalSpecialtySpinner(it.data)
+                    }
+                    else
+                        binding.errorTextView.text = it.message
                 }
 
             }
@@ -107,7 +143,7 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
         }
 
         if(phone.isEmpty() || phone.length < 10){
-            binding.errorTextView.text = "The password must be at least 10 digits long and cannot be empty."
+            binding.errorTextView.text = "Phone number must be at least 10 digits long and cannot be empty."
             return
         }
 
@@ -127,19 +163,21 @@ class SpecialistRegisterActivity: DrawerBaseActivity(), DatePickerFragment.DateS
 
         var usertypeid = UserType.Specialist.id
 
-        userViewModel.register(
-            User(
-                "",
-                usertypeid,
-                email,
-                firstname,
-                lastname,
-                address,
-                phone,
-                gender,
-                dob
+        val body = mapOf(
+            "firstname" to firstname,
+            "lastname" to lastname,
+            "email" to email,
+            "password" to password,
+            "usertypeid" to usertypeid,
+            "phone" to phone,
+            "gender" to gender,
+            "dob" to dob,
+            "address" to address,
+            "medicalspecialtyid" to medicalspecialtyid
+        )
 
-        ), password)
+
+        userViewModel.registerSpecialist(body)
 
     }
 }

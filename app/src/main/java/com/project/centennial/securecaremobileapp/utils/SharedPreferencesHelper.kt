@@ -1,29 +1,29 @@
 package com.project.centennial.securecaremobileapp.utils
 
 import android.content.Context
-import android.widget.Toast
+import android.util.Log
 import com.google.gson.Gson
-import com.project.centennial.securecaremobileapp.model.User
-import com.project.centennial.securecaremobileapp.model.UserResponse
+import com.google.gson.reflect.TypeToken
+import com.project.centennial.securecaremobileapp.model.DataResponse
 
 class SharedPreferencesHelper(context: Context) {
     private val sharedPreferences =
         context.getSharedPreferences("LoginUser", Context.MODE_PRIVATE)
     private val gson = Gson()
 
-    fun saveUserInfo(data: UserResponse) {
-        val jsonString = gson.toJson(data.user)
+    fun saveUserInfo(response: DataResponse) {
+        val jsonString = gson.toJson(response.data)
+        Log.d("Shared Preferences-save: ", jsonString.toString())
         sharedPreferences.edit()
             .putString("userInfo", jsonString)
-            .putString("userToken", data.token)
+            .putString("userToken", response.token)
             .apply()
-
-
     }
 
-    fun getUserInfo(): User? {
-        val jsonString = sharedPreferences.getString("userInfo", null)
-        return gson.fromJson(jsonString, User::class.java)
+    fun getUserInfo(): Map<String, Any> {
+        val jsonString = sharedPreferences.getString("userInfo", "{}") ?: "{}"
+        val type = object : TypeToken<Map<String, Any>>() {}.type
+        return gson.fromJson(jsonString, type)
     }
 
     fun getUserInfoString(): String? {
